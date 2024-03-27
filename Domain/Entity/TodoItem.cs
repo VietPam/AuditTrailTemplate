@@ -1,4 +1,4 @@
-﻿namespace AuditTrailTemplate.Models;
+﻿namespace Domain.Entity;
 
 public class TodoItem
 {

@@ -1,24 +1,20 @@
-﻿using AuditTrailTemplate.Models;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Domain.Entity;
+using Domain.Enums;
+using Infrastructure.Models;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 
-namespace AuditTrailTemplate.Data;
-
-public class AuditTrailTemplateContext: DbContext
+namespace Infrastructure.Data;
+public class AuditTrailTemplateContext : DbContext
 {
-    // add-migration 1
-    // update-database
     public DbSet<TodoItem> TodoItems { get; set; } = null!;
     public DbSet<Audit> AuditLogs { get; set; }
-
-    public static string configSql = "Host=localhost:5434;Database=auditTrail;Username=postgres;Password=12345678";
+    public AuditTrailTemplateContext(DbContextOptions options) : base(options)
+    {
+        
+    }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-
         base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseNpgsql(configSql);
     }
     public virtual async Task<int> SaveChangesAsync(string userId = "null")
     {
@@ -58,12 +54,12 @@ public class AuditTrailTemplateContext: DbContext
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        auditEntry.AuditType = Enums.AuditType.Create;
+                        auditEntry.AuditType = AuditType.Create;
                         auditEntry.NewValues[propertyName] = property.CurrentValue;
                         break;
 
                     case EntityState.Deleted:
-                        auditEntry.AuditType = Enums.AuditType.Delete;
+                        auditEntry.AuditType = AuditType.Delete;
                         auditEntry.OldValues[propertyName] = property.OriginalValue;
                         break;
 
@@ -71,7 +67,7 @@ public class AuditTrailTemplateContext: DbContext
                         if (property.IsModified)
                         {
                             auditEntry.ChangedColumns.Add(propertyName);
-                            auditEntry.AuditType = Enums.AuditType.Update;
+                            auditEntry.AuditType = AuditType.Update;
                             auditEntry.OldValues[propertyName] = property.OriginalValue;
                             auditEntry.NewValues[propertyName] = property.CurrentValue;
                         }

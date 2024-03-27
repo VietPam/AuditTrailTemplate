@@ -1,7 +1,6 @@
-﻿using AuditTrailTemplate.Data;
-using AuditTrailTemplate.DTOs;
-using AuditTrailTemplate.Models;
-using Microsoft.AspNetCore.Http;
+﻿using AuditTrailTemplate.DTOs;
+using Domain.Entity;
+using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 

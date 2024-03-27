@@ -1,40 +1,20 @@
+using Infrastructure.DI;
 
-using AuditTrailTemplate.Data;
-using Microsoft.EntityFrameworkCore;
+var builder = WebApplication.CreateBuilder(args);
 
-namespace AuditTrailTemplate;
+builder.Services.AddInfrastructure(builder.Configuration);
 
-public class Program
-{
-    public static async Task Main(string[] args)
-    {
-        var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-        // Add services to the container.
+var app = builder.Build();
 
-        builder.Services.AddControllers();
-        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-        builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
-        builder.Services.AddDbContext<AuditTrailTemplateContext>(options => options.UseNpgsql(AuditTrailTemplateContext.configSql));
+app.UseSwagger();
+app.UseSwaggerUI();
 
-        var app = builder.Build();
-        
+app.UseAuthorization();
 
-        // Configure the HTTP request pipeline.
-        if (app.Environment.IsDevelopment())
-        {
-            app.UseSwagger();
-            app.UseSwaggerUI();
-        }
+app.MapControllers();
 
-        app.UseHttpsRedirection();
-
-        app.UseAuthorization();
-
-
-        app.MapControllers();
-
-        app.Run();
-    }
-}
+app.Run();

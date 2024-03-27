@@ -1,8 +1,9 @@
-﻿using AuditTrailTemplate.Enums;
+﻿using Domain.Entity;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
 
-namespace AuditTrailTemplate.Models;
+namespace Infrastructure.Models;
 public class AuditEntry
 {
     public AuditEntry(EntityEntry entry)

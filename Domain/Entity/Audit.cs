@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AuditTrailTemplate.Models;
+﻿namespace Domain.Entity;
 
 public class Audit
 {

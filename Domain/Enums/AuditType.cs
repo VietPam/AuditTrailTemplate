@@ -1,4 +1,4 @@
-﻿namespace AuditTrailTemplate.Enums;
+﻿namespace Domain.Enums;
 
 public enum AuditType
 {
